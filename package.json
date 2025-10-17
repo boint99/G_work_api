@@ -1,0 +1,36 @@
+{
+  "name": "gwork",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node src/server.js",
+    "build-babel": "babel ./src -d ./build/src",
+    "build": "npm run clean && npm run build-babel",
+    "lint": "eslint src --ext js --report-unused-disable-directives --max-warnings 0",
+    "clean": "rimraf build && mkdirp build"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.28.4",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "http-status-codes": "^2.3.0",
+    "joi": "^18.0.1",
+    "mongoose": "^8.19.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.28.3",
+    "@babel/core": "^7.28.4",
+    "@babel/eslint-parser": "^7.28.4",
+    "@babel/node": "^7.28.0",
+    "@babel/plugin-transform-runtime": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
+    "cross-env": "^10.1.0",
+    "eslint": "^9.37.0",
+    "mkdirp": "^3.0.1",
+    "nodemon": "^3.1.10",
+    "rimraf": "^6.0.1"
+  }
+}
