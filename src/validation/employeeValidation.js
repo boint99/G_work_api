@@ -5,59 +5,58 @@ import ApiError from '~/ulties/apiError'
 const register = async (req, res, next) => {
   const schema = Joi.object({
     email: Joi.string().email().required().messages({
-      'string.empty': 'Email không được để trống',
-      'string.email': 'Email không hợp lệ'
+      'string.empty': 'Email cannot be empty',
+      'string.email': 'Invalid email format',
+      'any.required': 'Email is required'
     }),
     password: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+      // .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
       .required()
       .messages({
-        'string.empty': 'Mật khẩu không được để trống',
-        'string.pattern.base': 'Mật khẩu chỉ chứa chữ và số, độ dài 3–30 ký tự'
-      })
+        'string.empty': 'Password cannot be empty',
+        'string.pattern.base': 'Password must contain only letters and numbers (3–30 characters)',
+        'any.required': 'Password is required'
+      }),
+    fullName: Joi.string().trim().required().messages({
+      'string.empty': 'Full name cannot be empty',
+      'any.required': 'Full name is required'
+    })
   })
 
   try {
     await schema.validateAsync(req.body, { abortEarly: false })
     next()
   } catch (error) {
-    const errorMessage = error.details.map(err => err.message).join(', ')
-    const customError = new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, errorMessage)
-    next(customError)
+    next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, error.details.map(err => err.message).join(', ')))
   }
-
 }
 
-
 const login = async (req, res, next) => {
-
   const schema = Joi.object({
     email: Joi.string().email().required().messages({
-      'string.empty': 'Email không được để trống',
-      'string.email': 'Email không hợp lệ'
+      'string.empty': 'Email cannot be empty',
+      'string.email': 'Invalid email format',
+      'any.required': 'Email is required'
     }),
     password: Joi.string()
       .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
       .required()
       .messages({
-        'string.empty': 'Mật khẩu không được để trống',
-        'string.pattern.base': 'Mật khẩu chỉ chứa chữ và số, độ dài 3–30 ký tự'
+        'string.empty': 'Password cannot be empty',
+        'string.pattern.base': 'Password must contain only letters and numbers (3–30 characters)',
+        'any.required': 'Password is required'
       })
   })
 
   try {
     await schema.validateAsync(req.body, { abortEarly: false })
-
     next()
   } catch (error) {
-    const errorMessage = error.details.map(err => err.message).join(', ')
-
-    const customError = new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, errorMessage)
-    next(customError)
+     next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, error.details.map(err => err.message).join(', ')))
   }
 }
 
 export const employeeValidation = {
-    login,
-    register
+  login,
+  register
 }

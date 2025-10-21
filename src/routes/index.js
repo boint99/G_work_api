@@ -9,6 +9,6 @@ Router.get('/status', (req, res) => {
 });
 
 // user
-Router.use('/register', employeeRoute )
+Router.use('/user', employeeRoute )
 
 export const APIs_Route = Router
