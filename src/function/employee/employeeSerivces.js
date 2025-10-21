@@ -1,22 +1,31 @@
-import { employee } from '~/function/employee/employeeModel'
+import { employeeModel } from '~/function/employee/employeeModel'
 import bcrypt from 'bcrypt'
 import ApiError from '~/ulties/apiError'
 import { StatusCodes } from 'http-status-codes'
 
 const register = async ({ email, password, fullName }) => {
-  const existingEmployee = await employee.findOneByEmail({ email })
+
+  const getUsername = email.split('@')[0]
+
+  const existingEmployee = await employeeModel.findOneByEmail( email )
+
   if (existingEmployee) {
     throw new ApiError(StatusCodes.CONFLICT, 'Email already exists!')
   }
 
   const hashedPassword = await bcrypt.hash(password, 10)
-  const newEmployee = await employee.create({ email, password: hashedPassword, fullName })
+
+  const newEmployee = await employeeModel.Employee.create({
+    email,
+    password: hashedPassword,
+    fullName,
+    userName: getUsername
+  })
+
 
   const result = newEmployee.toObject()
   delete result.password
   return result
 }
 
-export const employeeService = {
-   register
-}
+export const employeeService = { register }

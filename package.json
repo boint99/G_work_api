@@ -8,12 +8,14 @@
     "build-babel": "babel ./src -d ./build/src",
     "build": "npm run clean && npm run build-babel",
     "lint": "eslint src --ext js --report-unused-disable-directives --max-warnings 0",
-    "clean": "rimraf build && mkdirp build"
+    "clean": "rimraf build && mkdirp build",
+    "production": "npm run build && cross-env BUILD_ENV=production node ./build/src/server.js"
   },
   "dependencies": {
     "@babel/runtime": "^7.28.4",
     "babel-plugin-module-resolver": "^5.0.2",
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "http-status-codes": "^2.3.0",
