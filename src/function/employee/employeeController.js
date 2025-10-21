@@ -1,15 +1,15 @@
 import { StatusCodes } from "http-status-codes"
-import { userService } from "~/services/userService"
+import { employeeService } from "~/function/employee/employeeSerivces"
 
 const register = async (req, res, next) => {
   try {
     const { email, password, fullName } = req.body
 
-    const newUser = await userService.register({ email, password, fullName })
+    const newUser = await employeeService.register({ email, password, fullName })
 
     // Trả về kết quả
     res.status(StatusCodes.CREATED).json({
-      message: "Đăng ký thành công!",
+      message: "Register is Successfully!",
       data: newUser
     })
   } catch (error) {

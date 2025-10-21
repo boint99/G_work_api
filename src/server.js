@@ -6,12 +6,11 @@ import { APIs_Route } from "~/routes"
 const app = express()
 
 const START_SERVER = async () => {
-
   app.use('/', APIs_Route)
 
   app.listen(env.DEV_PORT, () => {
     console.log(`Start server successfully... `)
-    console.log(`API_Route: ${env.DEV_HOST}:${env.DEV_PORT}/status`)
+    console.log(`API_Route: ${env.DEV_HOST}:${env.DEV_PORT}`)
   });
 };
 
