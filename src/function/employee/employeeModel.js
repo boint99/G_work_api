@@ -71,7 +71,7 @@ const Employee = mongoose.model("Employee", employeeSchema)
 
 
 const findOneByEmail = async ({ email }) => {
-  return await Employee.findOne({ email }).exec()
+  return await Employee.findOne({ email }).select("+password").exec()
 }
 
 export const employeeModel = {

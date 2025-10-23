@@ -10,7 +10,8 @@ const register = async (req, res, next) => {
       'any.required': 'Email is required'
     }),
     password: Joi.string()
-      // .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+    .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,30}$'))
+    .required()
       .required()
       .messages({
         'string.empty': 'Password cannot be empty',
@@ -39,7 +40,8 @@ const login = async (req, res, next) => {
       'any.required': 'Email is required'
     }),
     password: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+    .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,30}$'))
+    .required()
       .required()
       .messages({
         'string.empty': 'Password cannot be empty',
@@ -49,7 +51,7 @@ const login = async (req, res, next) => {
   })
 
   try {
-    await schema.validateAsync(req.body, { abortEarly: false })
+    await schema.validateAsync(req.body)
     next()
   } catch (error) {
      next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, error.details.map(err => err.message).join(', ')))

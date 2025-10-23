@@ -8,5 +8,7 @@ export const env = {
   DEV_HOST: process.env.DEV_HOST,
   DEV_PORT: process.env.DEV_PORT,
 
+  JWT_SECRET: process.env.JWT_SECRET,
+
   AUTHOR: process.env.AUTHOR,
 };

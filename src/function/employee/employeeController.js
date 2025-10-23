@@ -1,5 +1,6 @@
 import { StatusCodes } from "http-status-codes"
 import { employeeService } from "~/function/employee/employeeSerivces"
+import { bcrypt } from 'bcrypt'
 
 const register = async (req, res, next) => {
   try {
@@ -15,10 +16,30 @@ const register = async (req, res, next) => {
     })
   } catch (error) {
     next(error)
-    // throw new Error ('employeeController')
+  }
+}
+
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body
+    if(!email || !password) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: 'Email and password required'
+      })
+    }
+
+    const result = await employeeService.login({ email, password })
+
+    res.status(StatusCodes.CREATED).json({
+      status: StatusCodes.CREATED,
+      result
+    })
+  } catch (error) {
+    next(error)
   }
 }
 
 export const employeeController = {
-  register
+  register,
+  login
 }
