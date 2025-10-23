@@ -1,5 +1,5 @@
 import { employeeModel } from '~/function/employee/employeeModel'
-import jwt from "jsonwebtoken"
+import JWT from "jsonwebtoken"
 import bcrypt from 'bcrypt'
 import ApiError from '~/ulties/apiError'
 import { StatusCodes } from 'http-status-codes'
@@ -42,7 +42,7 @@ const login = async ({ email, password }) => {
       throw new ApiError(StatusCodes.UNAUTHORIZED, "Email or password is incorrect")
     }
 
-    const token = jwt.sign(
+    const token = JWT.sign(
       { userId: existedUser._id, email: existedUser.email },
       env.JWT_SECRET,
       { expiresIn: "7d" }

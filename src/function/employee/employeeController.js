@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes"
 import { employeeService } from "~/function/employee/employeeSerivces"
-import { bcrypt } from 'bcrypt'
+
 
 const register = async (req, res, next) => {
   try {
