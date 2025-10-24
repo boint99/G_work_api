@@ -10,5 +10,4 @@ Router.route('/register')
 Router.route('/login')
   .post(employeeValidation.login, employeeController.login)
 
-
 export const employeeRoute = Router
