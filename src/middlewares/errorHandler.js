@@ -3,7 +3,7 @@ import { env } from '~/config/environment'
 
 export const errorHandler = (err, req, res, next) => {
 
-    if (!err.statusCode) err.statusCode = StatusCodes.INTERNAL_SERVER_ERROR
+  if (!err.statusCode) err.statusCode = StatusCodes.INTERNAL_SERVER_ERROR
 
   const responseError = {
     statusCode: err.statusCode,

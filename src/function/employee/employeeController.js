@@ -1,5 +1,5 @@
-import { StatusCodes } from "http-status-codes"
-import { employeeService } from "~/function/employee/employeeSerivces"
+import { StatusCodes } from 'http-status-codes'
+import { employeeService } from '~/function/employee/employeeSerivces'
 
 
 const register = async (req, res, next) => {
@@ -7,11 +7,11 @@ const register = async (req, res, next) => {
     const { email, password, fullName } = req.body
 
     const newUser = await employeeService.register({ email, password, fullName })
-    console.log("🚀 ~ register ~ newUser:", newUser)
+    console.log('🚀 ~ register ~ newUser:', newUser)
 
     res.status(StatusCodes.CREATED).json({
       status: StatusCodes.CREATED,
-      message: "Register is Successfully!",
+      message: 'Register is Successfully!',
       data: newUser
     })
   } catch (error) {
@@ -22,7 +22,7 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body
-    if(!email || !password) {
+    if (!email || !password) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: 'Email and password required'
       })
