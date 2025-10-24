@@ -1,38 +1,49 @@
-import { employeeModel } from '~/function/employee/employeeModel'
+import { userModel } from '~/function/users/userModel'
 import JWT from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import ApiError from '~/ulties/apiError'
 import { StatusCodes } from 'http-status-codes'
 import { env } from '~/config/environment'
+import { employeeModel } from '../employees/employeeModel'
 
 const register = async ({ email, password, fullName }) => {
+  // const getUsername = email.split('@')[0]
 
-  const getUsername = email.split('@')[0]
+  // Check if email exists
+  const existUser = await userModel.User.findOne({ email })
 
-  const existingEmployee = await employeeModel.findOneByEmail( email )
-
-  if (existingEmployee) {
+  if (existUser) {
     throw new ApiError(StatusCodes.CONFLICT, 'Email already exists!')
   }
 
   const hashedPassword = await bcrypt.hash(password, 10)
 
-  const newEmployee = await employeeModel.Employee.create({
+  let employee = await employeeModel.employee.findOne({ emailCompany: email })
+
+  if (!employee) {
+    employee = await employeeModel.employee.create({
+      emailCompany: email,
+      fullName,
+      employeeCode: `EMP${Date.now()}`
+    })
+  }
+
+
+  const newUser = await userModel.User.create({
     email,
     password: hashedPassword,
     fullName,
-    userName: getUsername
+    employeeId: employee._id
   })
 
+  const userResponse = newUser.toObject()
+  delete userResponse.password
 
-  const result = newEmployee.toObject()
-  delete result.password
-  return result
+  return userResponse
 }
 
 export const login = async ({ email, password }) => {
-  const existedUser = await employeeModel.findOneByEmail({ email })
-  console.log('🚀 ~ login ~ existedUser:', existedUser)
+  const existedUser = await userModel.findOneByEmail({ email })
   if (!existedUser) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'Email does not exist')
   }
@@ -59,7 +70,7 @@ export const login = async ({ email, password }) => {
   }
 }
 
-export const employeeService = {
+export const userService = {
   register,
   login
 }

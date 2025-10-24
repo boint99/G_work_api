@@ -1,13 +1,12 @@
 import { StatusCodes } from 'http-status-codes'
-import { employeeService } from '~/function/employee/employeeSerivces'
+import { userService } from '~/function/users/userSerivces'
 
 
 const register = async (req, res, next) => {
   try {
     const { email, password, fullName } = req.body
 
-    const newUser = await employeeService.register({ email, password, fullName })
-    console.log('🚀 ~ register ~ newUser:', newUser)
+    const newUser = await userService.register({ email, password, fullName })
 
     res.status(StatusCodes.CREATED).json({
       status: StatusCodes.CREATED,
@@ -28,7 +27,7 @@ const login = async (req, res, next) => {
       })
     }
 
-    const result = await employeeService.login({ email, password })
+    const result = await userService.login({ email, password })
 
     res.status(StatusCodes.CREATED).json({
       status: StatusCodes.CREATED,
@@ -39,7 +38,7 @@ const login = async (req, res, next) => {
   }
 }
 
-export const employeeController = {
+export const userController = {
   register,
   login
 }
